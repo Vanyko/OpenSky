@@ -63,7 +63,7 @@ fun GoogleMapScreen(
             position = CameraPosition.fromLatLngZoom(bounds.center, 6f)
         }
 
-        val maxAltitude = skyStates.maxOf { it.geo_altitude?: 0f }
+        val maxAltitude = skyStates.maxOfOrNull { it.geo_altitude?: 1f } ?: 1f
 
         GoogleMap(
             modifier = Modifier.fillMaxSize(),

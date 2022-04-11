@@ -1,15 +1,17 @@
 package com.vanyko.opensky.ui.state_list
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -89,12 +91,53 @@ private fun SkyStateCard(
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
+        SkyStateCardContent(
+            skyState = skyState
+        )
+    }
+}
+
+@Composable
+private fun SkyStateCardContent(
+    skyState: OpenSkyState
+) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .padding(6.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+    ) {
         Column(
-            Modifier.padding(16.dp)
+            modifier = Modifier
+                .weight(1f)
+                .padding(16.dp)
         ) {
             Text(text = "${stringResource(id = R.string.callsign)}: ${skyState.callsign}")
             Text(text = "${stringResource(id = R.string.coordinates)}: [${skyState.longitude},${skyState.latitude}]")
-            Text(text = "${stringResource(id = R.string.altitude)}: ${skyState.geo_altitude} meters")
+            Text(text = "${stringResource(id = R.string.geo_altitude)}: ${skyState.geo_altitude} meters")
+
+            if (expanded) {
+                Text(text = "${stringResource(id = R.string.country)}: ${skyState.origin_country}")
+                Text(text = "${stringResource(id = R.string.on_ground)}: ${skyState.on_ground}")
+                Text(text = "${stringResource(id = R.string.baro_altitude)}: ${skyState.baro_altitude} meters")
+                Text(text = "${stringResource(id = R.string.true_track)}: ${skyState.true_track} degrees")
+            }
+        }
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(
+                imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                contentDescription = if (expanded) {
+                    stringResource(R.string.show_less)
+                } else {
+                    stringResource(R.string.show_more)
+                }
+            )
         }
     }
 }

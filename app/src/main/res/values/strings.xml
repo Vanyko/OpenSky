@@ -6,4 +6,11 @@
     <string name="altitude">Altitude</string>
     <string name="list">List</string>
     <string name="map">Map</string>
+    <string name="show_less">Show less</string>
+    <string name="show_more">Show more</string>
+    <string name="country">Country</string>
+    <string name="baro_altitude">Baro altitude</string>
+    <string name="geo_altitude">Geo altitude</string>
+    <string name="on_ground">On ground</string>
+    <string name="true_track">True track</string>
 </resources>

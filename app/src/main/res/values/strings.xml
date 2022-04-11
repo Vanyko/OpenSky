@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">OpenSky</string>
+    <string name="home_tap_to_load_content">Tap to load content</string>
+    <string name="callsign">Callsign</string>
+    <string name="coordinates">Coordinates</string>
+    <string name="altitude">Altitude</string>
 </resources>

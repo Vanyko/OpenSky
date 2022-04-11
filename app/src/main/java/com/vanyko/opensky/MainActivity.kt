@@ -1,58 +1,53 @@
 package com.vanyko.opensky
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.vanyko.opensky.data.OpenSkyRepository
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.vanyko.opensky.ui.state_list.StateListScreen
+import com.vanyko.opensky.ui.state_list.StateListViewModel
 import com.vanyko.opensky.ui.theme.OpenSkyTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var openSkyRepository: OpenSkyRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             OpenSkyTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                Scaffold(
+                    topBar = {
+                        HomeTopAppBar()
+                    }
                 ) {
-                    Greeting("Android")
+                    val homeViewModel: StateListViewModel = hiltViewModel()
+                    StateListScreen(homeViewModel)
                 }
             }
-        }
-
-        runBlocking {
-            val result = openSkyRepository.fetchSkyStates()
-            Log.i("MainActivity", "Repo result: $result")
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+private fun HomeTopAppBar() {
+    val title = stringResource(id = R.string.app_name)
+    TopAppBar(
+        title = {
+            Text(text = title)
+        },
+        backgroundColor = MaterialTheme.colors.surface,
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     OpenSkyTheme {
-        Greeting("Android")
+        // TODO: add app preview
     }
 }

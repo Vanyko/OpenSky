@@ -20,6 +20,7 @@ fun OpenSkyNavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = OpenSkyDestinations.LIST_ROUTE
 ) {
+    // It's the same for both screens, so for simplicity it's shared
     val stateListViewModel: StateListViewModel = hiltViewModel()
 
     NavHost(

@@ -4,4 +4,6 @@
     <string name="callsign">Callsign</string>
     <string name="coordinates">Coordinates</string>
     <string name="altitude">Altitude</string>
+    <string name="list">List</string>
+    <string name="map">Map</string>
 </resources>

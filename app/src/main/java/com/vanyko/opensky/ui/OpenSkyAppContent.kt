@@ -5,24 +5,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vanyko.opensky.ui.theme.OpenSkyTheme
 import com.vanyko.opensky.R
 
 @Composable
 fun AppContent() {
     val navController = rememberNavController()
+
     OpenSkyTheme {
+        val systemUiController = rememberSystemUiController()
+        val darkIcons = MaterialTheme.colors.isLight
+        SideEffect {
+            systemUiController.setStatusBarColor(Color.Transparent, darkIcons = darkIcons)
+        }
+
         Scaffold(
             topBar = {
                 HomeTopAppBar()

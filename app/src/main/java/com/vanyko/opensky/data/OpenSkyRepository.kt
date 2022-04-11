@@ -5,6 +5,7 @@ import com.vanyko.opensky.data.model.OpenSkyState
 import com.vanyko.opensky.data.model.OpenSkyStateListApiModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import javax.inject.Inject
 
 class OpenSkyRepository @Inject constructor (
@@ -18,11 +19,16 @@ class OpenSkyRepository @Inject constructor (
         lomax: Float = 18.87F
     ): Result<List<OpenSkyState>> =
         withContext(ioDispatcher) {
-            val response = openSkyApi.getAllStates(lamin, lomin, lamax, lomax)
-            if (response.isSuccessful) {
-                Result.Success(response.body()?.toOpenSkyStateList() ?: emptyList())
-            } else {
-                Result.Error("Failed to get ske state list")
+            try {
+                val response = openSkyApi.getAllStates(lamin, lomin, lamax, lomax)
+                if (response.isSuccessful) {
+                    Result.Success(response.body()?.toOpenSkyStateList() ?: emptyList())
+                } else {
+                    Result.Error("Failed to get sky state list")
+                }
+            }
+            catch (e: Exception) {
+                Result.Error("Failed to make network request")
             }
         }
 }

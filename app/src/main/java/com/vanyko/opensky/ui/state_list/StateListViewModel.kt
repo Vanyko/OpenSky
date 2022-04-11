@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vanyko.opensky.data.OpenSkyRepository
 import com.vanyko.opensky.data.model.OpenSkyState
+import com.vanyko.opensky.ui.utils.TickHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val REFRESH_TIMEOUT = 10000L
 
 sealed interface ListUiState {
 
@@ -47,6 +50,7 @@ class StateListViewModel @Inject constructor(
 ): ViewModel() {
     private val TAG = "StateListViewModel"
     private val viewModelState = MutableStateFlow(ListViewModelState(isLoading = true))
+    private val tickHandler: TickHandler = TickHandler(REFRESH_TIMEOUT, viewModelScope)
 
     val uiState = viewModelState
         .map { it.toUiState() }
@@ -58,6 +62,12 @@ class StateListViewModel @Inject constructor(
 
     init {
         refreshSkyStates()
+
+        viewModelScope.launch {
+            tickHandler.tickFlow.collect {
+                refreshSkyStates()
+            }
+        }
     }
 
     fun refreshSkyStates() {

@@ -1,11 +1,14 @@
 package com.vanyko.opensky.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,10 +29,12 @@ fun AppContent() {
             bottomBar = {
                 BottomNavigation(navController = navController)
             }
-        ) {
-            OpenSkyNavGraph(
-                navController = navController
-            )
+        ) { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                OpenSkyNavGraph(
+                    navController = navController
+                )
+            }
         }
     }
 }

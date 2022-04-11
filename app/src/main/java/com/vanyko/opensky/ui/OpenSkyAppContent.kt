@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -52,7 +53,7 @@ private fun HomeTopAppBar() {
 
 sealed class Screen(val screen_route: String, val resourceId: Int, val imageVector: ImageVector) {
     object List : Screen(OpenSkyDestinations.LIST_ROUTE, R.string.list, Icons.Filled.List)
-    object Map : Screen(OpenSkyDestinations.MAP_ROUTE, R.string.map, Icons.Filled.LocationOn)
+    object Map : Screen(OpenSkyDestinations.MAP_ROUTE, R.string.map, Icons.Filled.Map)
 }
 
 @Composable

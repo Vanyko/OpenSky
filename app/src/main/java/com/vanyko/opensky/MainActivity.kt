@@ -11,7 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.vanyko.opensky.data.OpenSkyApi
+import com.vanyko.opensky.data.OpenSkyRepository
 import com.vanyko.opensky.ui.theme.OpenSkyTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var openSkyApi: OpenSkyApi
+    lateinit var openSkyRepository: OpenSkyRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +38,8 @@ class MainActivity : ComponentActivity() {
         }
 
         runBlocking {
-            val response = openSkyApi.getAllStates(
-                lamin = 48.55F,
-                lomin = 12.9F,
-                lamax = 51.06F,
-                lomax = 18.87F
-            )
-
-            if (response.isSuccessful) {
-                Log.i("MainActivity", "Success: " + response.body().toString())
-            } else {
-                Log.i("MainActivity", "Failure: " + response.message())
-            }
+            val result = openSkyRepository.fetchSkyStates()
+            Log.i("MainActivity", "Repo result: $result")
         }
     }
 }
